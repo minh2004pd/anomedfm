@@ -10,7 +10,7 @@ Only **image-level labels** (healthy / unhealthy) are used during training — n
 - **Supervision**: image-level labels only — healthy (y=0) / unhealthy (y=1); no segmentation masks used during training
 - **Input**: 4-modality MRI slices (T1, T1ce, T2, FLAIR) — shape `(4, 256, 256)`, normalized to `[0, 1]`
 - **Inference**: reverse-ODE encode to `t_start=0.2` → forward-ODE decode with CFG (w=0.5) toward healthy label → pixel-wise residual → Otsu threshold + morphological post-processing
-- **Best result (epoch 10, combined T2+FLAIR)**: DICE=0.6530, IoU=0.5388, AUROC=0.8742 on full test set (126 cases)
+- **Best result**: combined T2+FLAIR mask on full test set (126 cases)
 
 ## Dataset
 
@@ -139,29 +139,6 @@ Outputs per sample (under `clean_samples/fm/<idx>/`):
 - `fm_anomaly_map_{T1,T1ce,T2,FLAIR,combined}.png`
 - `fm_binary_mask_{T1,T1ce,T2,FLAIR,combined}.png`
 - `fm_gt_mask.png`
-
-## Results (epoch 10, test set, 126 cases)
-
-Per-modality results (Table 4.8 in thesis):
-
-| Modality | DICE | IoU | AUROC | PSNR (dB) | SSIM |
-|---|---|---|---|---|---|
-| T1 | 0.3919 | 0.2787 | 0.7098 | 43.47 | 0.9952 |
-| T1ce | 0.3007 | 0.1989 | 0.7167 | 44.47 | 0.9919 |
-| T2 | 0.6500 | 0.5291 | 0.8697 | 43.29 | 0.9948 |
-| FLAIR | 0.5628 | 0.4382 | 0.8015 | 41.79 | 0.9949 |
-| **Combined (T2+FLAIR)** | **0.6530** | **0.5388** | **0.8742** | 47.69 | 0.9964 |
-
-Comparison with baselines on the same test set (Table 4.8):
-
-| Method | DICE | IoU | AUROC | PSNR (dB) | SSIM | Time/sample |
-|---|---|---|---|---|---|---|
-| DAE | 0.3727 | 0.2683 | 0.7319 | 14.88 | 0.3077 | 0.01s |
-| Diffusion Anomaly | 0.6270 | 0.4922 | **0.9151** | **54.89** | **0.9991** | 38.46s |
-| **FM + CFG (ours)** | **0.6530** | **0.5388** | 0.8742 | 47.69 | 0.9964 | **4.26s** |
-| U-Net (fully supervised) | 0.8799 | 0.8195 | 0.9980 | — | — | — |
-
-> U-Net uses pixel-level segmentation masks and is listed as an upper-bound reference only.
 
 ## Pretrained checkpoint
 
