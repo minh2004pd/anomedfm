@@ -1,0 +1,34 @@
+# Core deep learning
+torch>=2.0
+torchvision>=0.15
+torchdiffeq>=0.2.3
+
+# Flow matching metrics & FID
+torchmetrics[image]>=1.0
+torch-fidelity
+
+# Training utilities
+tqdm
+submitit
+cloudpickle
+lightning-utilities
+
+# Medical imaging
+nibabel
+
+# Image processing
+opencv-python
+scikit-image
+Pillow
+
+# Scientific computing
+numpy
+scipy
+
+# Anomaly detection metrics
+scikit-learn
+matplotlib
+
+# Experiment tracking
+wandb
+
